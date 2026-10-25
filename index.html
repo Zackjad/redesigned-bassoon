@@ -38,6 +38,8 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Appwrite Web SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@21.0.0"></script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1638,6 +1640,46 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
+  </script>
+
+  <!-- Appwrite connection setup -->
+  <script>
+    (function () {
+      if (!window.Appwrite) {
+        console.error("Appwrite SDK did not load. Check your internet connection or the SDK script URL.");
+        return;
+      }
+
+      const appwriteClient = new Appwrite.Client();
+      appwriteClient
+        .setEndpoint("https://fra.cloud.appwrite.io/v1")
+        .setProject("6addcd370003b817c38e");
+
+      // Make the configured client available to the existing site scripts.
+      window.appwriteClient = appwriteClient;
+      window.zackjadAppwrite = {
+        client: appwriteClient,
+        endpoint: "https://fra.cloud.appwrite.io/v1",
+        projectId: "6addcd370003b817c38e"
+      };
+
+      console.log("Zackjad Appwrite client initialized");
+
+      // Check whether the Appwrite endpoint is reachable. This verifies
+      // connectivity only; it does not sign a user in or access a database.
+      fetch("https://fra.cloud.appwrite.io/v1/health")
+        .then(function (response) {
+          if (!response.ok) throw new Error("Health check returned HTTP " + response.status);
+          return response.json().catch(function () { return {}; });
+        })
+        .then(function () {
+          console.log("Appwrite endpoint reachable. Client initialized successfully.");
+        })
+        .catch(function (error) {
+          console.error("Appwrite endpoint health check failed:", error);
+          console.info("The client is configured; check the browser console and Appwrite project settings if the endpoint is unreachable.");
+        });
+    })();
   </script>
 </body>
 </html>
