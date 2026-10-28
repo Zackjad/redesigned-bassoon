@@ -1,0 +1,8 @@
+{
+  "name": "Zackjad — Visual Inspiration & Reels",
+  "description": "Creative visual inspiration, photo discovery, video reels, and creator community platform with subscription tiers and admin portal.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
